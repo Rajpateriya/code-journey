@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import UserProfilePage from "./Leetcode/UserProfilePage";
 import Side from "./Side";
 import UserProfilegfg from "./gfg/UserProfilegfg";
+import HackerrankProfile from "./Hackerrank/HackerrankProfile";
 
 
 
@@ -17,7 +18,7 @@ const UserProfile = () => {
       case 'Codechef':
         return <p>Codechef content goes here.</p>;
       case 'HackerRank':
-        return <p>HackerRank content goes here.</p>;
+        return <HackerrankProfile/>;
       case 'GFG':
         return <UserProfilegfg/>;
       default:

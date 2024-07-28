@@ -3,6 +3,7 @@ import UserProfilePage from "./Leetcode/UserProfilePage";
 import Side from "./Side";
 import UserProfilegfg from "./gfg/UserProfilegfg";
 import HackerrankProfile from "./Hackerrank/HackerrankProfile";
+import CodeChefProfile from "./codechef/CodeChefProfile";
 
 
 
@@ -16,7 +17,7 @@ const UserProfile = () => {
       case 'Leetcode':
         return <UserProfilePage/>;
       case 'Codechef':
-        return <p>Codechef content goes here.</p>;
+        return <CodeChefProfile/>;
       case 'HackerRank':
         return <HackerrankProfile/>;
       case 'GFG':

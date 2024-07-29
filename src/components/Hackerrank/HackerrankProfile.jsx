@@ -169,45 +169,37 @@ function Links({ links }) {
   );
 }
 
+
+
+// Keep the Profile, Badges, Certifications, and Links components as they are
+
 function HackerrankProfile() {
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    setUserData({
-      name: "Raj Pateriya",
-      title: "Java || Web Developer || Python",
-      badges: ["Problem Solving", "C++", "Java", "Python", "SQL"],
-      certifications: [
-        "Java Basic",
-        "Python Basic",
-        "JavaScript Basic",
-        "SQL Basic",
-        "CSS Basic",
-      ],
-      workExperience: [
-        {
-          title: "Java Development Intern",
-          company: "Oasis Infobyte",
-          date: "November 2022 - December 2022",
-          description:
-            "I was a project Intern in java development at this organization. It was a one month internship program. I learned a lot during this period and it boost my confidence to work and deal with real time projects.",
-        },
-      ],
-      education: [
-        {
-          institution: "Rajiv Gandhi Technical University,Bhopal",
-          degree: "Computer Science & Engineering, B.Tech",
-          date: "September 2020 - Present",
-        },
-      ],
-      links: [
-        {
-          name: "LinkedIn",
-          url: "https://www.linkedin.com/in/raj-pateriya-39424225",
-        },
-        { name: "Github", url: "https://github.com/Rajpateriya" },
-      ],
-    });
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch(`https://hackerrank-api.onrender.com/profile/rajpateriya`);
+        const data = await response.json();
+        
+        setUserData({
+          name: data.name,
+          title: data.jobs_headline || "HackerRank User",
+          avatar: data.avatar,
+          badges: data.badges,
+          certifications: data.certificates,
+          links: [
+            ...(data.linkedin_url ? [{ name: "LinkedIn", url: data.linkedin_url }] : []),
+            ...(data.github_url ? [{ name: "Github", url: data.github_url }] : []),
+            ...(data.website ? [{ name: "Website", url: data.website }] : []),
+          ],
+        });
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
   }, []);
 
   if (!userData) return <div className="text-gray-800">Loading...</div>;
@@ -217,19 +209,10 @@ function HackerrankProfile() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-8">
         <div className="lg:col-span-1 space-y-8">
           <Profile userData={userData} />
-          <div className="bg-white rounded-lg shadow-lg p-4 transition-all duration-300 hover:shadow-xl">
-            <h3 className="text-gray-800 font-bold mb-2 flex items-center">
-              <FaFileAlt className="mr-2 text-blue-500" />
-              My Resume
-            </h3>
-            <a href="#" className="text-blue-500 hover:underline">Raj_Paterya_Resume.pdf</a>
-          </div>
         </div>
         <div className="lg:col-span-3 space-y-8">
           <Badges badges={userData.badges} />
           <Certifications certifications={userData.certifications} />
-          <WorkExperience experiences={userData.workExperience} />
-          <Education education={userData.education} />
           <Links links={userData.links} />
         </div>
       </div>

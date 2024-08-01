@@ -9,7 +9,7 @@ const UserProfilePage = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch('https://rajpateriya-leetcode-api.onrender.com/rajpateriya'); // Replace with your actual API endpoint
+        const response = await fetch('https://rajpateriya-leetcode-api.onrender.com/rajpateriya');
         if (!response.ok) {
           throw new Error('Failed to fetch user data');
         }
@@ -25,18 +25,18 @@ const UserProfilePage = () => {
     fetchUserData();
   }, []);
 
-  if (loading) return <div className="text-center py-10"> Loading... </div>;
+  if (loading) return <div className="text-center py-10">Loading...</div>;
   if (!userData) return <div className="text-center py-10">No user data available</div>;
 
   return (
-    <div className="flex bg-gray-100 min-h-screen">
-      <Sidebar userData={userData} />
-      <div className="flex-1 p-8">
-        <LeetCodeProfile/>
-        {/* Add more profile content here */}
+    <div className="flex flex-col md:flex-row bg-gray-100 min-h-screen">
+      <div className="w-full md:w-64 lg:w-72">
+        <Sidebar userData={userData} />
+      </div>
+      <div className="flex-1 overflow-y-auto">
+        <LeetCodeProfile />
       </div>
     </div>
-    
   );
 };
 

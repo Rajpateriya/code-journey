@@ -3,20 +3,20 @@ import { User, MapPin, Briefcase, GraduationCap, Calendar, Github, Twitter, Link
 
 const Sidebar = ({ userData }) => {
   return (
-    <div className="w-64 bg-gray-800 shadow-lg  overflow-hidden">
+    <div className="bg-gray-800 shadow-lg overflow-hidden w-full md:w-64 lg:w-72">
       <div className="p-4 bg-black-400">
-        <img 
-          src={userData.avatar} 
-          alt={userData.username} 
+        <img
+          src={userData.avatar}
+          alt={userData.username}
           className="w-20 h-20 rounded-full mx-auto border-4 border-white"
         />
-        <h2 className="text-xl font-bold text-center mt-2">{userData.name}</h2>
-        <p className="text-sm text-center text-gray-700">{userData.username}</p>
+        <h2 className="text-xl font-bold text-center mt-2 text-white">{userData.name}</h2>
+        <p className="text-sm text-center text-gray-300">{userData.username}</p>
       </div>
       <div className="p-4">
         <div className="mb-4">
-          <p className="text-sm font-semibold text-gray-600 mb-2">About</p>
-          <p className="text-sm">{userData.about}</p>
+          <p className="text-sm font-semibold text-gray-400 mb-2">About</p>
+          <p className="text-sm text-gray-300">{userData.about}</p>
         </div>
         <div className="space-y-2">
           <InfoItem icon={<User size={16} />} text={`Ranking: ${userData.ranking}`} />
@@ -28,10 +28,10 @@ const Sidebar = ({ userData }) => {
           <InfoItem icon={<Calendar size={16} />} text={`Joined: ${userData.birthday}`} />
         </div>
         <div className="mt-4">
-          <p className="text-sm font-semibold text-gray-600 mb-2">Skills</p>
+          <p className="text-sm font-semibold text-gray-400 mb-2">Skills</p>
           <div className="flex flex-wrap gap-2">
             {userData.skillTags.map((skill, index) => (
-              <span key={index} className="px-2 py-1 bg-gray-200 rounded-full text-xs">
+              <span key={index} className="px-2 py-1 bg-gray-700 rounded-full text-xs text-white">
                 {skill}
               </span>
             ))}
@@ -51,18 +51,18 @@ const Sidebar = ({ userData }) => {
 };
 
 const InfoItem = ({ icon, text }) => (
-  <div className="flex items-center space-x-2 text-sm">
-    <span className="text-gray-500">{icon}</span>
+  <div className="flex items-center space-x-2 text-sm text-gray-300">
+    <span className="text-gray-400">{icon}</span>
     <span>{text}</span>
   </div>
 );
 
 const SocialLink = ({ icon, href, text }) => (
-  <a 
-    href={href} 
-    target="_blank" 
-    rel="noopener noreferrer" 
-    className="flex items-center space-x-2 text-sm text-blue-500 hover:underline"
+  <a
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="flex items-center space-x-2 text-sm text-blue-400 hover:underline"
   >
     <span>{icon}</span>
     <span>{text}</span>

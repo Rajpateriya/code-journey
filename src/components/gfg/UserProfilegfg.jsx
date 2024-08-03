@@ -49,19 +49,27 @@ const UserProfilegfg = () => {
 
   const fetchData = async () => {
     try {
-      if (localStorage.getItem("data") !== null) {
-        setData(JSON.parse(localStorage.getItem("data")));
-      } else {
-        const response = await fetch(
-          "https://gfg-stats-api.onrender.com/rpateriya111"
-        );
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const jsonData = await response.json();
-        setData(jsonData);
-        localStorage.setItem("data", JSON.stringify(jsonData));
-      }
+      // if (localStorage.getItem("data") !== null) {
+      //   setData(JSON.parse(localStorage.getItem("data")));
+      // } else {
+      //   const response = await fetch(
+      //     "https://gfg-stats-api.onrender.com/rpateriya111"
+      //   );
+      //   if (!response.ok) {
+      //     throw new Error("Network response was not ok");
+      //   }
+      //   const jsonData = await response.json();
+      //   setData(jsonData);
+      //   localStorage.setItem("data", JSON.stringify(jsonData));
+      // }
+      const response = await fetch("https://gfg-stats-api.onrender.com/rpateriya111");
+
+      if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          const jsonData = await response.json();
+          setData(jsonData);
+
     } catch (error) {
       setError("Error fetching data: " + error.message);
     } finally {

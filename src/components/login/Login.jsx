@@ -1,55 +1,106 @@
-import React from 'react';
-import { User, Lock } from 'lucide-react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { User, Mail, Lock, Code } from 'lucide-react';
 
 const Login = () => {
+  const [isHovering, setIsHovering] = useState(false);
+
   return (
-    <div className="flex h-screen bg-gradient-to-br from-purple-900 to-blue-900">
-      <div className="m-auto bg-gray-900 rounded-xl shadow-lg flex flex-col md:flex-row w-full max-w-4xl">
-        <div className="p-8 md:w-1/2">
-          <div className="text-white mb-8">
-            <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mb-4">
-              <User size={32} />
-            </div>
-            <h2 className="text-2xl font-bold">Welcome</h2>
-            <p className="text-gray-400 mt-2">Sign in to your account</p>
+    <div className="h-screen flex  bg-gradient-to-br from-gray-800 to-gray-600">
+      <div className="grid md:grid-cols-2 w-full bg-gradient-to-br from-gray-800 to-gray-600 flex-1">
+        {/* Left Side */}
+        <motion.div 
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+          className="flex flex-col items-center justify-center p-8 md:p-12 lg:p-16"
+        >
+          <div className="max-w-md space-y-6 text-white">
+            <h1 className="text-4xl font-bold">Welcome to our platform!</h1>
+            <p className="text-xl">Sign up to access our powerful tools and resources.</p>
+            <motion.img
+              src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/79d88f102686225.624f64899101f.jpeg"
+              width="500"
+              height="400"
+              alt="Login Illustration"
+              className="w-full max-w-[400px] rounded-lg shadow-2xl"
+              style={{ aspectRatio: '500 / 400', objectFit: 'cover' }}
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            />
           </div>
-          <form>
-            <div className="mb-4">
-              <div className="flex items-center border-b border-gray-700 py-2">
-                <User size={20} className="text-gray-400 mr-2" />
-                <input className="appearance-none bg-transparent border-none w-full text-white mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Username" />
+        </motion.div>
+
+        {/* Right Side */}
+        <div className="flex items-center justify-center p-4 md:p-12 lg:p-16">
+          <motion.div 
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="rounded-lg border bg-white/10 backdrop-blur-md text-white shadow-xl w-full max-w-md p-8"
+          >
+            <div className="text-center space-y-2 mb-6">
+              <h3 className="text-3xl font-bold">Login to your Account</h3>
+              {/* <p className="text-lg text-gray-300">Fill out the form to get started.</p> */}
+            </div>
+
+            <form className=" gap-y-8 space-y-6 md:gap-x-4 md:gap-y-6">
+              <InputField icon={<User />} id="name" placeholder="Username" />
+              <InputField icon={<Mail />} id="email" placeholder="Email" type="email" />
+              {/* <InputField icon={<Code />} id="hackerrank" placeholder="HackerRank Username" /> */}
+              {/* <InputField icon={<Code />} id="leetcode" placeholder="LeetCode Username" /> */}
+              {/* <InputField icon={<Code />} id="gfg" placeholder="GeeksForGeeks Username" /> */}
+              {/* <InputField icon={<Code />} id="codechef" placeholder="CodeChef Username" /> */}
+              {/* <InputField icon={<Lock />} id="password" placeholder="Password" type="password" /> */}
+
+              <div className="md:col-span-2">
+                <motion.button 
+                  className="w-full py-3 px-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-md font-semibold text-lg shadow-lg"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onHoverStart={() => setIsHovering(true)}
+                  onHoverEnd={() => setIsHovering(false)}
+                >
+                  Login
+                </motion.button>
+
+                {isHovering && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="text-center text-sm text-gray-300 mt-2"
+                  >
+                    Click to join our community!
+                  </motion.div>
+                )}
               </div>
+            </form>
+
+            <div className="text-center mt-4">
+              <Link to="/signup" className="text-gray-300 hover:text-white transition-colors duration-300">
+                Not Registered? Create an Account
+              </Link>
             </div>
-            <div className="mb-6">
-              <div className="flex items-center border-b border-gray-700 py-2">
-                <Lock size={20} className="text-gray-400 mr-2" />
-                <input className="appearance-none bg-transparent border-none w-full text-white mr-3 py-1 px-2 leading-tight focus:outline-none" type="password" placeholder="Password" />
-              </div>
-            </div>
-            <button className="w-full bg-pink-600 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300 ease-in-out" type="button">
-              Login
-            </button>
-          </form>
-          <div className="mt-4 flex justify-between text-sm text-gray-400">
-            <a href="#" className="hover:text-white transition duration-300 ease-in-out">Remember me</a>
-            <a href="#" className="hover:text-white transition duration-300 ease-in-out">Forgot password?</a>
-          </div>
-          <div className="mt-8 text-sm text-center text-gray-400">
-            <span>Not a member? </span>
-            <a href="#" className="text-white hover:underline">Sign up now</a>
-          </div>
-        </div>
-        <div className="hidden md:block md:w-1/2 bg-cover bg-center rounded-r-xl" style={{backgroundImage: "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoVnP1dM-1qvWSv7qmerdKHCmaiO9A3aebFg&s')"}}>
-          <div className="h-full flex items-center justify-center bg-black bg-opacity-50 rounded-r-xl">
-            <div className="text-center">
-              <h1 className="text-4xl font-bold text-white mb-4">Welcome.</h1>
-              <p className="text-gray-300 px-8">Your journey begins here. Sign in to access your personalized experience.</p>
-            </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>
   );
 };
+
+const InputField = ({ icon, id, placeholder, type = "text" }) => (
+  <div className="relative">
+    <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+      {icon}
+    </span>
+    <input
+      className="w-full bg-white/5 border border-gray-600 rounded-md py-2 pl-10 pr-3 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
+      id={id}
+      placeholder={placeholder}
+      type={type}
+    />
+  </div>
+);
 
 export default Login;

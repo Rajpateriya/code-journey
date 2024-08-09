@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import UserProfilePage from "./Leetcode/UserProfilePage";
-import Side from "./Side";
+import Side from "./SIdebar";
 import UserProfilegfg from "./gfg/UserProfilegfg";
 import HackerrankProfile from "./Hackerrank/HackerrankProfile";
 import CodeChefProfile from "./codechef/CodeChefProfile";
@@ -33,10 +33,10 @@ const UserProfile = () => {
 
 
   return (
-    <div className="grid min-h-screen w-full grid-cols-[280px_1fr] border-gray-700 bg-gray-800 text-white">
+    <div className="grid  w-full  border-gray-700 bg-gray-800 text-white">
       {/* THIS IS THE SIDEBAR SECTION */}
 
-     <Side/>
+     {/* <Side/> */}
 
       {/* THIS IS THE TAB BAR SECTION */}
 

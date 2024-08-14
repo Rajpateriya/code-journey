@@ -1,16 +1,46 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+
 import { motion } from 'framer-motion';
 import { User, Mail, Lock, Code } from 'lucide-react';
-import {Link}  from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const [isHovering, setIsHovering] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    username: '',
+    email: '',
+    hackerRank: '',
+    leetCode: '',
+    gfg: '',
+    codeChef: '',
+    password: ''
+  });
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData({ ...formData, [id]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:5000/signup', formData);
+      alert(response.data.message);
+      navigate('/')
+    } catch (error) {
+      alert(error.response.data.error);
+    }
+   
+  };
 
   return (
-    <div className="h-screen flex  bg-gradient-to-br from-gray-800 to-gray-600">
+    <div className="h-screen flex bg-gradient-to-br from-gray-800 to-gray-600">
       <div className="grid md:grid-cols-2 w-full bg-gradient-to-br from-gray-800 to-gray-600 flex-1">
         {/* Left Side */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
@@ -34,7 +64,7 @@ const SignUp = () => {
 
         {/* Right Side */}
         <div className="flex items-center justify-center p-4 md:p-12 lg:p-16">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -45,18 +75,19 @@ const SignUp = () => {
               <p className="text-lg text-gray-300">Fill out the form to get started.</p>
             </div>
 
-            <form className="grid grid-cols-1 gap-y-6 md:grid-cols-2 md:gap-x-4 md:gap-y-6">
-              <InputField icon={<User />} id="name" placeholder="Full Name" />
-              <InputField icon={<User />} id="name" placeholder="Username" />
-              <InputField icon={<Mail />} id="email" placeholder="Email" type="Email" />
-              <InputField icon={<Code />} id="hackerrank" placeholder="HackerRank " />
-              <InputField icon={<Code />} id="leetcode" placeholder="LeetCode " />
-              <InputField icon={<Code />} id="gfg" placeholder="GeeksForGeeks " />
-              <InputField icon={<Code />} id="codechef" placeholder="CodeChef " />
-              <InputField icon={<Lock />} id="password" placeholder="Password" type="password" />
+            <form className="grid grid-cols-1 gap-y-6 md:grid-cols-2 md:gap-x-4 md:gap-y-6" onSubmit={handleSubmit}>
+              <InputField icon={<User />} id="name" placeholder="Full Name" value={formData.name} onChange={handleChange} />
+              <InputField icon={<User />} id="username" placeholder="Username" value={formData.username} onChange={handleChange} />
+              <InputField icon={<Mail />} id="email" placeholder="Email" type="email" value={formData.email} onChange={handleChange} />
+              <InputField icon={<Code />} id="hackerRank" placeholder="HackerRank" value={formData.hackerRank} onChange={handleChange} />
+              <InputField icon={<Code />} id="leetCode" placeholder="LeetCode" value={formData.leetCode} onChange={handleChange} />
+              <InputField icon={<Code />} id="gfg" placeholder="GeeksForGeeks" value={formData.gfg} onChange={handleChange} />
+              <InputField icon={<Code />} id="codeChef" placeholder="CodeChef" value={formData.codeChef} onChange={handleChange} />
+              <InputField icon={<Lock />} id="password" placeholder="Password" type="password" value={formData.password} onChange={handleChange} />
 
               <div className="md:col-span-2">
-                <motion.button 
+                <motion.button
+                  type="submit"
                   className="w-full py-3 px-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-md font-semibold text-lg shadow-lg"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -80,7 +111,7 @@ const SignUp = () => {
 
             <div className="text-center mt-4">
               <Link to="/login" className="text-gray-300 hover:text-white transition-colors duration-300">
-                Already registered? Login 
+                Already registered? Login
               </Link>
             </div>
           </motion.div>
@@ -90,7 +121,7 @@ const SignUp = () => {
   );
 };
 
-const InputField = ({ icon, id, placeholder, type = "text" }) => (
+const InputField = ({ icon, id, placeholder, type = "text", value, onChange }) => (
   <div className="relative">
     <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
       {icon}
@@ -100,8 +131,9 @@ const InputField = ({ icon, id, placeholder, type = "text" }) => (
       id={id}
       placeholder={placeholder}
       type={type}
+      value={value}
+      onChange={onChange}
     />
   </div>
 );
-
 export default SignUp;

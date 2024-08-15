@@ -9,7 +9,7 @@ const difficultyColors = {
   Hard: 'text-red-500',
 };
 
-const LeetCodeProfile = () => {
+const LeetCodeProfile = ({username}) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -17,7 +17,7 @@ const LeetCodeProfile = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://rajpateriya-leetcode-api.onrender.com/userProfile/rajpateriya');
+        const response = await axios.get(`https://rajpateriya-leetcode-api.onrender.com/userProfile/${username}`);
         setData(response.data);
         setLoading(false);
       } catch (err) {
@@ -29,10 +29,7 @@ const LeetCodeProfile = () => {
     fetchData();
   }, []);
 
-  if (loading) {
-    return <div className="text-center p-4">Loading...</div>;
-  }
-
+  if (loading) return <div className="text-center py-8">Loading...</div>;
   if (error) {
     return <div className="text-center text-red-500 p-4">{error}</div>;
   }
@@ -59,7 +56,7 @@ const LeetCodeProfile = () => {
       </div>
 
       {/* Solved Problems */}
-      <div className="bg-white rounded-lg shadow p-4 sm:p-6">
+      <div className="bg-white text-black rounded-lg shadow p-4 sm:p-6">
         <h2 className="text-xl sm:text-2xl font-bold mb-4">Solved Problems</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <ProblemTypeCard type="Easy" solved={data.easySolved} total={data.totalEasy} />

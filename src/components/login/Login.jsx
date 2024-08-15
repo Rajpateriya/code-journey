@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-import { User, Lock } from 'lucide-react';
+import { User } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { useAuth } from '../AuthContext';
 
 const Login = () => {
+  const {login} = useAuth();
   const [formData, setFormData] = useState({ username: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -20,13 +22,16 @@ const Login = () => {
     setIsSubmitting(true);
     try {
       const response = await axios.post('https://code-journey-backend-1.onrender.com/login', formData);
-      // Assuming login is successful and you might want to store a token or user info
+      
+      // Store the user data in localStorage
+      localStorage.setItem('userData', JSON.stringify(response.data.user));
+      
       toast('Login successful!');
-      // Redirect to home page
+      login();
       navigate('/');
     } catch (error) {
-      // Defensive checks to avoid accessing undefined properties
-      const errorMessage = error.response?.data?.error || 'An unexpected error occurred';
+      console.error('Login Error:', error);
+      const errorMessage = error.response?.data?.error || error.message || 'An unexpected error occurred';
       toast(errorMessage);
     } finally {
       setIsSubmitting(false);
@@ -55,7 +60,6 @@ const Login = () => {
               value={formData.username} 
               onChange={handleChange} 
             />
-            
 
             <div>
               <motion.button
@@ -81,8 +85,16 @@ const Login = () => {
   );
 };
 
+
 // InputField Component Definition
-const InputField = ({ icon, id, placeholder, type = "text", value, onChange }) => (
+const InputField = ({
+  icon,
+  id,
+  placeholder,
+  type = "text",
+  value,
+  onChange,
+}) => (
   <div className="relative">
     <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
       {icon}

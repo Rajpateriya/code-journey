@@ -41,7 +41,7 @@ const Tab = ({ children, isActive, onClick }) => (
   </button>
 );
 
-const UserProfilegfg = () => {
+const UserProfilegfg = ({ username }) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -49,27 +49,13 @@ const UserProfilegfg = () => {
 
   const fetchData = async () => {
     try {
-      // if (localStorage.getItem("data") !== null) {
-      //   setData(JSON.parse(localStorage.getItem("data")));
-      // } else {
-      //   const response = await fetch(
-      //     "https://gfg-stats-api.onrender.com/rpateriya111"
-      //   );
-      //   if (!response.ok) {
-      //     throw new Error("Network response was not ok");
-      //   }
-      //   const jsonData = await response.json();
-      //   setData(jsonData);
-      //   localStorage.setItem("data", JSON.stringify(jsonData));
-      // }
-      const response = await fetch("https://gfg-stats-api.onrender.com/rpateriya111");
+      const response = await fetch(`https://gfg-stats-api.onrender.com/${username}`);
 
       if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          const jsonData = await response.json();
-          setData(jsonData);
-
+        throw new Error("Network response was not ok");
+      }
+      const jsonData = await response.json();
+      setData(jsonData);
     } catch (error) {
       setError("Error fetching data: " + error.message);
     } finally {
@@ -78,13 +64,15 @@ const UserProfilegfg = () => {
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (username) {
+      fetchData();
+    }
+  }, [username]);
 
-  if (loading) return <div className="text-center mt-8">Loading...</div>;
+  if (loading) return <div className="text-center py-8">Loading...</div>;
   if (error)
     return <div className="text-center mt-8 text-red-500">{error}</div>;
-  if (!data) return null;
+  if (!data) return null
 
   const { info, solvedStats } = data;
 

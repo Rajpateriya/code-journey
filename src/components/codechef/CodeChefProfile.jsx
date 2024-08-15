@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Star, ChevronRight, Award, Zap, Calendar } from 'lucide-react';
 
-const CodeChefProfile = () => {
+const CodeChefProfile = ({username}) => {
   const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:5000/codechef/zaheer_khan')
+    fetch(`http://localhost:5000/codechef/${username}`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -19,7 +19,7 @@ const CodeChefProfile = () => {
         setLoading(false);
       })
       .catch(error => {
-        setError(error.message);
+        setError("Username not found");
         setLoading(false);
       });
   }, []);

@@ -1,40 +1,37 @@
-import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Home from "./components/Home";
-import UserProfilePage from "./components/Leetcode/UserProfilePage";
+import React from 'react';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import Home from './components/Home';
+import Login from './components/login/Login';
+import SignUp from './components/Register/SignUp';
+import { AuthProvider, useAuth } from './components/AuthContext';
 import './index.css';
-import UserProfilegfg from "./components/gfg/UserProfilegfg";
-import CodeChefProfile from "./components/codechef/CodeChefProfile";
-import SignUp from "./components/Register/SignUp";
-import Login from "./components/login/Login";
 
+function PrivateRoute({ element }) {
+  const { isAuthenticated } = useAuth();
+  return isAuthenticated ? element : <Navigate to="/signup" />;
+}
 
-
-
-
-function App() {
-
-
+function AppRoutes() {
+  const { isAuthenticated } = useAuth();
 
   return (
-    
-      <div className="App">
+    <Routes>
+      <Route path="/" element={<PrivateRoute element={<Home />} />} />
+      <Route path="/signup" element={<SignUp />} />
+      <Route path="/login" element={<Login />} />
+    </Routes>
+  );
+}
+
+function App() {
+  return (
+    <div className="App">
+      <AuthProvider>
         <BrowserRouter>
-          <Routes>
-            <Route path='/' element={<Home/>}></Route>
-            <Route path='/signup' element={<SignUp/>}></Route>
-            <Route path='/login' element={<Login/>}></Route>
-            <Route path='/gfg' element={<UserProfilegfg/>}></Route>
-            <Route path='/codechef' element={<CodeChefProfile/>}></Route>
-           
-            
-             <Route path='/leetcode' element={<UserProfilePage/>}></Route>
-            
-            
-            
-          </Routes>
+          <AppRoutes />
         </BrowserRouter>
-      </div>
+      </AuthProvider>
+    </div>
   );
 }
 

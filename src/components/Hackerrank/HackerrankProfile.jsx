@@ -173,13 +173,13 @@ function Links({ links }) {
 
 // Keep the Profile, Badges, Certifications, and Links components as they are
 
-function HackerrankProfile() {
+function HackerrankProfile({username}) {
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch(`https://hackerrank-api.onrender.com/profile/rajpateriya`);
+        const response = await fetch(`https://hackerrank-api.onrender.com/profile/${username}`);
         const data = await response.json();
         
         setUserData({
@@ -202,7 +202,7 @@ function HackerrankProfile() {
     fetchUserData();
   }, []);
 
-  if (!userData) return <div className="text-gray-800">Loading...</div>;
+  if (!userData) return <div className="text-center py-8">Loading...</div>;
 
   return (
     <div className="bg-gray-100 min-h-screen p-4 sm:p-8">

@@ -3,9 +3,10 @@ import axios from 'axios';
 import { motion } from 'framer-motion';
 import { User, Lock } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const Login = () => {
-  const [formData, setFormData] = useState({ username: '', password: '' });
+  const [formData, setFormData] = useState({ username: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate(); // Hook for navigation
 
@@ -18,15 +19,15 @@ const Login = () => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      const response = await axios.post('http://localhost:5000/login', formData);
+      const response = await axios.post('https://code-journey-backend-1.onrender.com/login', formData);
       // Assuming login is successful and you might want to store a token or user info
-      alert('Login successful!');
+      toast('Login successful!');
       // Redirect to home page
       navigate('/');
     } catch (error) {
       // Defensive checks to avoid accessing undefined properties
       const errorMessage = error.response?.data?.error || 'An unexpected error occurred';
-      alert(errorMessage);
+      toast(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -43,7 +44,7 @@ const Login = () => {
         >
           <div className="text-center space-y-2 mb-6">
             <h3 className="text-3xl font-bold">Login</h3>
-            <p className="text-lg text-gray-300">Enter your username and password.</p>
+            <p className="text-lg text-gray-300">Enter your username..</p>
           </div>
 
           <form className="space-y-6" onSubmit={handleSubmit}>
@@ -54,14 +55,7 @@ const Login = () => {
               value={formData.username} 
               onChange={handleChange} 
             />
-            <InputField 
-              icon={<Lock />} 
-              id="password" 
-              placeholder="Password" 
-              type="password" 
-              value={formData.password} 
-              onChange={handleChange} 
-            />
+            
 
             <div>
               <motion.button

@@ -4,6 +4,7 @@ import axios from 'axios';
 import { motion } from 'framer-motion';
 import { User, Mail, Lock, Code } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -27,11 +28,11 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/signup', formData);
-      alert(response.data.message);
+      const response = await axios.post('https://code-journey-backend-1.onrender.com/signup', formData);
+      toast(response.data.message);
       navigate('/')
     } catch (error) {
-      alert(error.response.data.error);
+      toast(error.response.data.error);
     }
    
   };
@@ -83,7 +84,7 @@ const SignUp = () => {
               <InputField icon={<Code />} id="leetCode" placeholder="LeetCode" value={formData.leetCode} onChange={handleChange} />
               <InputField icon={<Code />} id="gfg" placeholder="GeeksForGeeks" value={formData.gfg} onChange={handleChange} />
               <InputField icon={<Code />} id="codeChef" placeholder="CodeChef" value={formData.codeChef} onChange={handleChange} />
-              <InputField icon={<Lock />} id="password" placeholder="Password" type="password" value={formData.password} onChange={handleChange} />
+              {/* <InputField icon={<Lock />} id="password" placeholder="Password" type="password" value={formData.password} onChange={handleChange} /> */}
 
               <div className="md:col-span-2">
                 <motion.button

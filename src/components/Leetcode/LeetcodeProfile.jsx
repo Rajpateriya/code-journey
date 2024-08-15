@@ -9,7 +9,7 @@ const difficultyColors = {
   Hard: 'text-red-500',
 };
 
-const LeetCodeProfile = ({username}) => {
+const LeetCodeProfile = ({ username }) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -17,7 +17,7 @@ const LeetCodeProfile = ({username}) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`https://rajpateriya-leetcode-api.onrender.com/userProfile/${username}`);
+        const response = await axios.get(`https://alfa-leetcode-api.onrender.com/userProfile/${username}`);
         setData(response.data);
         setLoading(false);
       } catch (err) {
@@ -27,20 +27,19 @@ const LeetCodeProfile = ({username}) => {
     };
 
     fetchData();
-  }, []);
+  }, [username]); // Run this effect again if the username changes
 
   if (loading) return <div className="text-center py-8">Loading...</div>;
-  if (error) {
-    return <div className="text-center text-red-500 p-4">{error}</div>;
-  }
+  if (error) return <div className="text-center text-red-500 p-4">{error}</div>;
+  if (!data) return <div className="text-center py-8">No data available</div>;
 
-  const submissionData = data.totalSubmissions.map(item => ({
+  const submissionData = data.totalSubmissions?.map(item => ({
     name: item.difficulty,
     Solved: item.count,
     Submissions: item.submissions,
-  }));
+  })) || [];
 
-  const recentActivity = data.recentSubmissions.slice(0, 5);
+  const recentActivity = data.recentSubmissions?.slice(0, 5) || [];
 
   return (
     <div className="flex flex-col space-y-4 sm:space-y-6 md:space-y-8 p-4 sm:p-6 md:p-8 bg-gray-100">
@@ -135,13 +134,9 @@ const ActivityItem = ({ activity }) => (
       <h4 className="font-semibold text-sm sm:text-base">{activity.title}</h4>
       <p className="text-xs sm:text-sm text-gray-600">{new Date(parseInt(activity.timestamp) * 1000).toLocaleString()}</p>
     </div>
-    <span className={`mt-2 sm:mt-0 px-2 py-1 rounded text-xs sm:text-sm ${
-      activity.statusDisplay === 'Accepted' ? 'bg-green-100 text-green-800' :
-      activity.statusDisplay === 'Wrong Answer' ? 'bg-red-100 text-red-800' :
-      'bg-yellow-100 text-yellow-800'
-    }`}>
-      {activity.statusDisplay}
-    </span>
+    <div className={`text-xs sm:text-sm font-medium ${difficultyColors[activity.difficulty]}`}>
+      {activity.difficulty}
+    </div>
   </div>
 );
 

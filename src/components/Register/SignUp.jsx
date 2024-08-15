@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useAuth } from '../AuthContext';
+
 
 import { motion } from 'framer-motion';
 import { User, Mail, Lock, Code } from 'lucide-react';
@@ -8,7 +8,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
 const SignUp = () => {
-  const { login } = useAuth();
+ 
   const navigate = useNavigate();
   const [isHovering, setIsHovering] = useState(false);
   const [formData, setFormData] = useState({
@@ -35,8 +35,8 @@ const SignUp = () => {
       // Store the username in localStorage
       localStorage.setItem('username', formData.username);
 
-      login();
-      navigate('/');
+     
+      navigate(`/profile/${formData.username}`);
     } catch (error) {
       toast(error.response.data.error);
     }

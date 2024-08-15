@@ -7,7 +7,7 @@ const CodeChefProfile = ({username}) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`https://codechef-api-7ilp.onrender.com/${username}`)
+    fetch(`https://codechef-api-7ilp.onrender.com/codechef/${username}`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -63,7 +63,7 @@ const CodeChefProfile = ({username}) => {
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
                 <p className="text-gray-600">Username:</p>
-                <p className="font-semibold">{profileData.name.toLowerCase()}</p>
+                <p className="font-semibold">{profileData.name}</p>
               </div>
               <div>
                 <p className="text-gray-600">Country:</p>

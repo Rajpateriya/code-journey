@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Sidebar from '../Leetcode/Sidebar';
 import LeetCodeProfile from './LeetcodeProfile';
 
-const UserProfilePage = () => {
+const UserProfilePage = ({ username }) => {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch('https://rajpateriya-leetcode-api.onrender.com/rajpateriya');
+        const response = await fetch(`https://alfa-leetcode-api.onrender.com/${username}`);
+        
         if (!response.ok) {
           throw new Error('Failed to fetch user data');
         }
@@ -17,15 +19,17 @@ const UserProfilePage = () => {
         setUserData(data);
       } catch (error) {
         console.error('Error fetching user data:', error);
+        setError('Failed to fetch user data');
       } finally {
         setLoading(false);
       }
     };
 
     fetchUserData();
-  }, []);
+  }, [username]); // Ensure the effect runs again if the username changes
 
   if (loading) return <div className="text-center py-10">Loading...</div>;
+  if (error) return <div className="text-center py-10 text-red-500">{error}</div>;
   if (!userData) return <div className="text-center py-10">No user data available</div>;
 
   return (
@@ -34,7 +38,7 @@ const UserProfilePage = () => {
         <Sidebar userData={userData} />
       </div>
       <div className="flex-1 overflow-y-auto">
-        <LeetCodeProfile />
+        <LeetCodeProfile username={username} />
       </div>
     </div>
   );

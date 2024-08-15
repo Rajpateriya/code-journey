@@ -3,11 +3,11 @@ import axios from 'axios';
 import { motion } from 'framer-motion';
 import { User } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
-import { useAuth } from '../AuthContext';
+import toast,{Toaster} from 'react-hot-toast';
+
 
 const Login = () => {
-  const {login} = useAuth();
+  
   const [formData, setFormData] = useState({ username: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
@@ -26,13 +26,13 @@ const Login = () => {
       // Store the user data in localStorage
       localStorage.setItem('userData', JSON.stringify(response.data.user));
       
-      toast('Login successful!');
-      login();
-      navigate('/');
+      toast.success('Login successful!');
+     
+      navigate(`/profile/${formData.username}`);
     } catch (error) {
       console.error('Login Error:', error);
       const errorMessage = error.response?.data?.error || error.message || 'An unexpected error occurred';
-      toast(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -49,7 +49,7 @@ const Login = () => {
         >
           <div className="text-center space-y-2 mb-6">
             <h3 className="text-3xl font-bold">Login</h3>
-            <p className="text-lg text-gray-300">Enter your username..</p>
+            {/* <p className="text-lg text-gray-300">Enter your username..</p> */}
           </div>
 
           <form className="space-y-6" onSubmit={handleSubmit}>
@@ -75,11 +75,12 @@ const Login = () => {
           </form>
 
           <div className="text-center mt-4">
-            <Link to="/signup" className="text-gray-300 hover:text-white transition-colors duration-300">
+            <Link to="/" className="text-gray-300 hover:text-white transition-colors duration-300">
               Don't have an account? Sign Up
             </Link>
           </div>
         </motion.div>
+        <Toaster/>
       </div>
     </div>
   );

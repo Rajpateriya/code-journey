@@ -1,11 +1,11 @@
-
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import UserProfilePage from "./Leetcode/UserProfilePage";
 import UserProfilegfg from "./gfg/UserProfilegfg";
 import HackerrankProfile from "./Hackerrank/HackerrankProfile";
 import CodeChefProfile from "./codechef/CodeChefProfile";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 
 const UserProfile = () => {
   const [activeTab, setActiveTab] = useState(null);
@@ -13,24 +13,53 @@ const UserProfile = () => {
   const [userData, setUserData] = useState(null);
   const [availableTabs, setAvailableTabs] = useState([]);
   const navigate = useNavigate();
+  const params = useParams();
+
+  const updateTabs = (data) => {
+    const tabs = [];
+    if (data.leetCode) tabs.push('Leetcode');
+    if (data.codeChef) tabs.push('Codechef');
+    if (data.hackerRank) tabs.push('HackerRank');
+    if (data.gfg) tabs.push('GFG');
+    setAvailableTabs(tabs);
+    if (tabs.length > 0) setActiveTab(tabs[0]);
+  };
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`https://code-journey-backend-1.onrender.com/profile/${params.username}`);
+        localStorage.setItem('userData', JSON.stringify(response.data));
+        setUserData(response.data);
+        updateTabs(response.data);
+      } catch (err) {
+        // Handle error
+      }
+    };
+
+    fetchData();
+
     const storedUserData = localStorage.getItem('userData');
     if (storedUserData) {
       const parsedUserData = JSON.parse(storedUserData);
       setUserData(parsedUserData);
-      
-      // Determine available tabs based on user data
-      const tabs = [];
-      if (parsedUserData.leetCode) tabs.push('Leetcode');
-      if (parsedUserData.codeChef) tabs.push('Codechef');
-      if (parsedUserData.hackerRank) tabs.push('HackerRank');
-      if (parsedUserData.gfg) tabs.push('GFG');
-      
-      setAvailableTabs(tabs);
-      if (tabs.length > 0) setActiveTab(tabs[0]);
+      updateTabs(parsedUserData);
     }
-  }, []);
+
+    const handleStorageChange = (event) => {
+      if (event.key === 'userData') {
+        const updatedUserData = JSON.parse(event.newValue);
+        setUserData(updatedUserData);
+        updateTabs(updatedUserData);
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, [params.username]);
 
   const renderTabContent = () => {
     if (!userData) return null;
@@ -71,9 +100,7 @@ const UserProfile = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('userData');
-    // Navigate to login page or perform other logout actions
-    navigate('/login')
-    
+    navigate('/login');
   };
 
   if (!userData) {
@@ -118,7 +145,6 @@ const UserProfile = () => {
             </button>
             {dropdownOpen && (
               <div className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg z-10">
-                
                 <button
                   className="block w-full text-center px-4 py-2 text-lg text-gray-400 hover:bg-gray-700 hover:text-white"
                   onClick={handleLogout}

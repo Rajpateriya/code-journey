@@ -1,24 +1,20 @@
-import React from 'react';
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
-import Home from './components/Home';
-import Login from './components/login/Login';
-import SignUp from './components/Register/SignUp';
-import { AuthProvider, useAuth } from './components/AuthContext';
-import './index.css';
-
-function PrivateRoute({ element }) {
-  const { isAuthenticated } = useAuth();
-  return isAuthenticated ? element : <Navigate to="/signup" />;
-}
+import React from "react";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import Home from "./components/Home";
+import Login from "./components/login/Login";
+import SignUp from "./components/Register/SignUp";
+import { AuthProvider, useAuth } from "./components/AuthContext";
+import "./index.css";
+import UserProfilePage from "./components/Leetcode/UserProfilePage";
+import LeetCodeProfile from "./components/Leetcode/LeetcodeProfile";
 
 function AppRoutes() {
-  const { isAuthenticated } = useAuth();
-
   return (
     <Routes>
-      <Route path="/" element={<PrivateRoute element={<Home />} />} />
-      <Route path="/signup" element={<SignUp />} />
+      <Route path="/profile/:username" element={<Home />} />
+      <Route path="/" element={<SignUp />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/leetcode" element={<UserProfilePage />} />
     </Routes>
   );
 }
@@ -26,11 +22,9 @@ function AppRoutes() {
 function App() {
   return (
     <div className="App">
-      <AuthProvider>
-        <BrowserRouter>
-          <AppRoutes />
-        </BrowserRouter>
-      </AuthProvider>
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
     </div>
   );
 }

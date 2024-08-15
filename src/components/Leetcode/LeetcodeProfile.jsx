@@ -45,7 +45,7 @@ const LeetCodeProfile = ({ username }) => {
     <div className="flex flex-col space-y-4 sm:space-y-6 md:space-y-8 p-4 sm:p-6 md:p-8 bg-gray-100">
       {/* Profile Overview */}
       <div className="bg-white rounded-lg shadow p-4 sm:p-6">
-        <h2 className="text-xl sm:text-2xl font-bold mb-4">Profile Overview</h2>
+        <h2 className="text-xl sm:text-2xl font-bold mb-4 text-black">Profile Overview</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <StatCard title="Problems Solved" value={data.totalSolved} total={data.totalQuestions} />
           <StatCard title="Acceptance Rate" value={`${((data.totalSolved / data.totalSubmissions[0].submissions) * 100).toFixed(1)}%`} />
@@ -56,7 +56,7 @@ const LeetCodeProfile = ({ username }) => {
 
       {/* Solved Problems */}
       <div className="bg-white text-black rounded-lg shadow p-4 sm:p-6">
-        <h2 className="text-xl sm:text-2xl font-bold mb-4">Solved Problems</h2>
+        <h2 className="text-xl sm:text-2xl font-bold mb-4 text-black">Solved Problems</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <ProblemTypeCard type="Easy" solved={data.easySolved} total={data.totalEasy} />
           <ProblemTypeCard type="Medium" solved={data.mediumSolved} total={data.totalMedium} />
@@ -66,7 +66,7 @@ const LeetCodeProfile = ({ username }) => {
 
       {/* Submissions Chart */}
       <div className="bg-white rounded-lg shadow p-4 sm:p-6">
-        <h2 className="text-xl sm:text-2xl font-bold mb-4">Submissions</h2>
+        <h2 className="text-xl sm:text-2xl font-bold mb-4 text-black">Submissions</h2>
         <div className="h-64 sm:h-80">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={submissionData}>
@@ -82,7 +82,7 @@ const LeetCodeProfile = ({ username }) => {
 
       {/* Recent Activity */}
       <div className="bg-white rounded-lg shadow p-4 sm:p-6">
-        <h2 className="text-xl sm:text-2xl font-bold mb-4">Recent Activity</h2>
+        <h2 className="text-xl sm:text-2xl font-bold mb-4 text-black">Recent Activity</h2>
         <div className="space-y-4">
           {recentActivity.map((activity, index) => (
             <ActivityItem key={index} activity={activity} />
@@ -92,10 +92,10 @@ const LeetCodeProfile = ({ username }) => {
 
       {/* Submission Calendar */}
       <div className="bg-white rounded-lg shadow p-4 sm:p-6">
-        <h2 className="text-xl sm:text-2xl font-bold mb-4">Submission Calendar</h2>
+        <h2 className="text-xl sm:text-2xl font-bold mb-4 text-black">Submission Calendar</h2>
         <div className="flex items-center space-x-2 text-gray-600">
           <Calendar size={20} />
-          <span className="text-sm sm:text-base">Submissions in the last year: {Object.values(data.submissionCalendar).reduce((a, b) => a + b, 0)}</span>
+          <span className="text-sm sm:text-base text-black">Submissions in the last year: {Object.values(data.submissionCalendar).reduce((a, b) => a + b, 0)}</span>
         </div>
         {/* Implement the heatmap calendar here */}
       </div>
@@ -105,8 +105,8 @@ const LeetCodeProfile = ({ username }) => {
 
 const StatCard = ({ title, value, total }) => (
   <div className="bg-gray-50 p-3 sm:p-4 rounded-lg">
-    <h3 className="text-sm sm:text-base font-semibold text-gray-700">{title}</h3>
-    <p className="text-lg sm:text-2xl font-bold text-gray-900">
+    <h3 className="text-sm sm:text-base font-semibold text-black">{title}</h3>
+    <p className="text-lg sm:text-2xl font-bold text-black">
       {value}
       {total && <span className="text-xs sm:text-sm text-gray-500"> / {total}</span>}
     </p>
@@ -115,8 +115,8 @@ const StatCard = ({ title, value, total }) => (
 
 const ProblemTypeCard = ({ type, solved, total }) => (
   <div className={`p-3 sm:p-4 rounded-lg border ${difficultyColors[type]} border-opacity-50`}>
-    <h3 className={`text-base sm:text-lg font-semibold ${difficultyColors[type]}`}>{type}</h3>
-    <p className="text-lg sm:text-2xl font-bold">
+    <h3 className={`text-base sm:text-lg font-semibold text-black`}>{type}</h3>
+    <p className="text-lg sm:text-2xl font-bold text-black">
       {solved} <span className="text-xs sm:text-sm text-gray-500">/ {total}</span>
     </p>
     <div className="w-full bg-gray-200 rounded-full h-2 sm:h-2.5 mt-2">
@@ -131,7 +131,7 @@ const ProblemTypeCard = ({ type, solved, total }) => (
 const ActivityItem = ({ activity }) => (
   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-2 hover:bg-gray-50 rounded">
     <div>
-      <h4 className="font-semibold text-sm sm:text-base">{activity.title}</h4>
+      <h4 className="font-semibold text-sm sm:text-base text-black">{activity.title}</h4>
       <p className="text-xs sm:text-sm text-gray-600">{new Date(parseInt(activity.timestamp) * 1000).toLocaleString()}</p>
     </div>
     <div className={`text-xs sm:text-sm font-medium ${difficultyColors[activity.difficulty]}`}>

@@ -7,7 +7,7 @@ const CodeChefProfile = ({username}) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/codechef/${username}`)
+    fetch(`https://codechef-api-7ilp.onrender.com/${username}`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');

@@ -10,7 +10,7 @@ const UserProfilePage = ({ username }) => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch(`https://alfa-leetcode-api.onrender.com/${username}`);
+        const response = await fetch(`https://rajpateriya-leetcode-api.onrender.com/${username}`);
         
         if (!response.ok) {
           throw new Error('Failed to fetch user data');

@@ -17,7 +17,7 @@ const LeetCodeProfile = ({ username }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`https://alfa-leetcode-api.onrender.com/userProfile/${username}`);
+        const response = await axios.get(`https://rajpateriya-leetcode-api.onrender.com/userProfile/${username}`);
         setData(response.data);
         setLoading(false);
       } catch (err) {

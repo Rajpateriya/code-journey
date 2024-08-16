@@ -85,10 +85,10 @@ const SignUp = () => {
               <InputField icon={<User />} id="name" placeholder="Full Name" value={formData.name} onChange={handleChange} />
               <InputField icon={<User />} id="username" placeholder="Username" value={formData.username} onChange={handleChange} />
               <InputField icon={<Mail />} id="email" placeholder="Email" type="email" value={formData.email} onChange={handleChange} />
-              <InputField icon={<Code />} id="hackerRank" placeholder="HackerRank" value={formData.hackerRank} onChange={handleChange} />
-              <InputField icon={<Code />} id="leetCode" placeholder="LeetCode" value={formData.leetCode} onChange={handleChange} />
-              <InputField icon={<Code />} id="gfg" placeholder="GeeksForGeeks" value={formData.gfg} onChange={handleChange} />
-              <InputField icon={<Code />} id="codeChef" placeholder="CodeChef" value={formData.codeChef} onChange={handleChange} />
+              <InputField icon={<Code />} id="hackerRank" placeholder="HackerRank Username" value={formData.hackerRank} onChange={handleChange} />
+              <InputField icon={<Code />} id="leetCode" placeholder="LeetCode Username" value={formData.leetCode} onChange={handleChange} />
+              <InputField icon={<Code />} id="gfg" placeholder="GeeksForGeeks Username" value={formData.gfg} onChange={handleChange} />
+              <InputField icon={<Code />} id="codeChef" placeholder="CodeChef Username" value={formData.codeChef} onChange={handleChange} />
               {/* <InputField icon={<Lock />} id="password" placeholder="Password" type="password" value={formData.password} onChange={handleChange} /> */}
 
               <div className="md:col-span-2">

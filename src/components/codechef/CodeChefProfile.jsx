@@ -1,181 +1,202 @@
-import React, { useState, useEffect } from 'react';
-import { Star, ChevronRight, Award, Zap, Calendar } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { Star, ChevronRight, Award, Zap, Calendar } from "lucide-react";
 
-const CodeChefProfile = ({username}) => {
+const CodeChefProfile = ({ username }) => {
   const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     fetch(`https://codechef-api-7ilp.onrender.com/codechef/${username}`)
-      .then(response => {
+      .then((response) => {
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
         return response.json();
       })
-      .then(data => {
+      .then((data) => {
         setProfileData(data);
         setLoading(false);
       })
-      .catch(error => {
+      .catch((error) => {
         setError("Username not found");
         setLoading(false);
       });
-  }, []);
+  }, [username]);
 
   if (loading) return <div className="text-center py-8">Loading...</div>;
-  if (error) return <div className="text-center py-8 text-red-500">Error: {error}</div>;
+  if (error)
+    return <div className="text-center py-8 text-red-500">Error: {error}</div>;
   if (!profileData) return null;
 
   const formatDate = (dateString) => {
-    const [year, month, day] = dateString.split('-');
+    const [year, month, day] = dateString.split("-");
     return `${day}/${month}/${year}`;
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-4 font-sans text-black">
-      
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Left Column */}
-        <div className="md:col-span-2">
-          <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-            <div className="flex items-center mb-4">
-              <img src={profileData.profile} className="w-16 h-16 rounded-full mr-4" />
-              <div>
-                <h1 className="text-2xl font-bold">{profileData.name}</h1>
-                <div className="flex items-center mt-1">
-                  <Star className="w-4 h-4 text-black mr-1" />
-                  <span>{profileData.stars}</span>
-                </div>
-              </div>
-              <div className="ml-auto">
-                <button className="text-gray-600 hover:text-gray-800 mr-2">
-                  <ChevronRight className="w-5 h-5" />
-                </button>
-                <button className="text-gray-600 hover:text-gray-800">
-                  <ChevronRight className="w-5 h-5 rotate-180" />
-                </button>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4 text-sm">
-              <div>
-                <p className="text-gray-600">Username:</p>
-                <p className="font-semibold">{profileData.name}</p>
-              </div>
-              <div>
-                <p className="text-gray-600">Country:</p>
-                <div className="flex items-center">
-                  <img src={profileData.countryFlag} alt={profileData.countryName} className="w-5 h-4 mr-2" />
-                  <span>{profileData.countryName}</span>
-                </div>
-              </div>
-              <div>
-                <p className="text-gray-600">Global Rank:</p>
-                <p className="font-semibold">{profileData.globalRank}</p>
-              </div>
-              <div>
-                <p className="text-gray-600">Country Rank:</p>
-                <p className="font-semibold">{profileData.countryRank}</p>
-              </div>
-              <div>
-                <p className="text-gray-600">Highest Rating:</p>
-                <p className="font-semibold">{profileData.highestRating}</p>
-              </div>
-              <div>
-                <p className="text-gray-600">Current Rating:</p>
-                <p className="font-semibold">{profileData.currentRating}</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-            <h2 className="text-xl font-semibold mb-4">Activity Heat Map</h2>
-            <div className="text-sm text-gray-500 mb-2">(Last 6 Months)</div>
-            <div className="grid grid-cols-7 gap-1">
-              {profileData.heatMap && profileData.heatMap.length > 0
-                ? profileData.heatMap.map((heat, index) => (
-                    <div key={index} className="w-4 h-4" style={{ backgroundColor: heat.color }}></div>
-                  ))
-                : [...Array(180)].map((_, index) => (
-                    <div key={index} className="w-4 h-4 bg-gray-200 rounded-sm"></div>
-                  ))}
-            </div>
-            <div className="flex justify-between text-xs text-gray-500 mt-2">
-              <span>Feb</span>
-              <span>Mar</span>
-              <span>Apr</span>
-              <span>May</span>
-              <span>Jun</span>
-              <span>Jul</span>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-semibold mb-4">Recent Contests</h2>
-            {profileData.ratingData && profileData.ratingData.length > 0 ? (
-              <div>
-                {profileData.ratingData.map((contest, index) => (
-                  <div key={index} className="mb-4">
-                    <h3 className="text-lg font-semibold">{contest.name}</h3>
-                    <p className="text-gray-500">Rank: {contest.rank}</p>
-                    <p className="text-gray-500">Rating: {contest.rating}</p>
-                    <p className="text-gray-500">Date: {formatDate(contest.end_date.split(' ')[0])}</p>
+    <div className="min-h-screen flex flex-col bg-gray-100">
+      <div className="flex-1 max-w-6xl mx-auto p-4 font-sans text-black">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Left Column */}
+          <div className="md:col-span-2">
+            <div className="bg-white rounded-lg shadow-lg p-6 mb-6 transition-all duration-300 hover:shadow-xl">
+              <div className="flex items-center mb-4">
+                <img
+                  src={profileData.profile}
+                  className="w-16 h-16 rounded-full mr-4 border-2 border-blue-500 transition-transform duration-300 hover:scale-110"
+                  alt="Profile"
+                />
+                <div>
+                  <h1 className="text-2xl font-bold">{profileData.name}</h1>
+                  <div className="flex items-center mt-1">
+                    <span className="text-gray-700">{profileData.stars}</span>
                   </div>
-                ))}
+                </div>
               </div>
-            ) : (
-              <p className="text-gray-500">No recent contests</p>
-            )}
-          </div>
-        </div>
 
-        {/* Right Column */}
-        <div>
-          <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-            <h2 className="text-xl font-semibold mb-4">Skill Tests</h2>
-            <div className="flex items-center mb-4">
-              <div className="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center text-white mr-4">
-                <Zap className="w-6 h-6" />
-              </div>
-              <div>
-                <p className="font-semibold">Build a strong profile by taking skill tests</p>
-                <p className="text-sm text-gray-500">Your current score will appear here</p>
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div className="transition-all duration-300 hover:bg-gray-100 p-2 rounded">
+                  <p className="text-gray-600">Username:</p>
+                  <p className="font-semibold">{profileData.name}</p>
+                </div>
+                <div className="transition-all duration-300 hover:bg-gray-100 p-2 rounded">
+                  <p className="text-gray-600">Country:</p>
+                  <div className="flex items-center">
+                    <img
+                      src={profileData.countryFlag}
+                      alt={profileData.countryName}
+                      className="w-5 h-4 mr-2"
+                    />
+                    <span>{profileData.countryName}</span>
+                  </div>
+                </div>
+                <div className="transition-all duration-300 hover:bg-gray-100 p-2 rounded">
+                  <p className="text-gray-600">Global Rank:</p>
+                  <p className="font-semibold">{profileData.globalRank}</p>
+                </div>
+                <div className="transition-all duration-300 hover:bg-gray-100 p-2 rounded">
+                  <p className="text-gray-600">Country Rank:</p>
+                  <p className="font-semibold">{profileData.countryRank}</p>
+                </div>
+                <div className="transition-all duration-300 hover:bg-gray-100 p-2 rounded">
+                  <p className="text-gray-600">Highest Rating:</p>
+                  <p className="font-semibold">{profileData.highestRating}</p>
+                </div>
+                <div className="transition-all duration-300 hover:bg-gray-100 p-2 rounded">
+                  <p className="text-gray-600">Current Rating:</p>
+                  <p className="font-semibold">{profileData.currentRating}</p>
+                </div>
               </div>
             </div>
-            <a href="#" className="text-blue-500 hover:underline text-sm">View skill tests</a>
-          </div>
 
-          <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-            <h2 className="text-xl font-semibold mb-4">Total Problems Solved</h2>
-            <p className="text-gray-500">{profileData.problemsSolved}</p>
-          </div>
+            <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6 mb-6 transition-all duration-300 hover:shadow-xl">
+              <h2 className="text-xl font-semibold mb-4 text-blue-600">Activity Heat Map</h2>
+              <div className="text-sm text-gray-500 mb-2">(Last 6 Months)</div>
+              <div className="overflow-x-auto">
+                <div className="grid grid-cols-7 gap-2 justify-items-center">
+                  {Array.from({ length: 6 }).map((_, index) => {
+                    const monthData = profileData.heatMap.find(
+                      (heat) => {
+                        const [year, month, day] = heat.date.split('-').map(Number);
+                        return (
+                          month === new Date().getMonth() + 1 - (5 - index) &&
+                          year === new Date().getFullYear()
+                        );
+                      }
+                    );
 
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-semibold mb-4">Badges</h2>
-            <div className="space-y-4">
-              <div className="flex items-center">
-                <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mr-4">
-                  <Award className="w-6 h-6 text-gray-400" />
-                </div>
-                <div>
-                  <p className="font-semibold">Code Enthusiast - No Badge</p>
-                  <p className="text-sm text-gray-500">0 / 10</p>
-                  <p className="text-xs text-gray-400">Attempt 10 Solutions to get Bronze Badge</p>
+                    const backgroundColor =
+                      monthData && monthData.value > 0
+                        ? monthData.value < 10
+                          ? "#c6e48b"
+                          : monthData.value < 20
+                          ? "#7bc96f"
+                          : monthData.value < 30
+                          ? "#239a3b"
+                          : "#196127"
+                        : "#f0f0f0"; // Light gray for no contribution
+
+                    return (
+                      <div key={index} className="flex flex-col items-center">
+                        <div
+                          className={`w-4 h-4 sm:w-6 sm:h-6 md:w-8 md:h-8 rounded-sm transition-transform duration-300 ease-in-out transform hover:scale-125 hover:shadow-lg ${monthData && monthData.value === 0 ? 'bg-gray-200' : ''}`}
+                          style={{ backgroundColor }}
+                          title={
+                            monthData
+                              ? `Date: ${monthData.date}, Contributions: ${monthData.value}`
+                              : "No activity"
+                          }
+                        ></div>
+                        <span className="text-xs mt-1">{6 - index}</span>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
-              <div className="flex items-center">
-                <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mr-4">
-                  <Award className="w-6 h-6 text-gray-400" />
+            </div>
+
+            <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6 transition-all duration-300 hover:shadow-xl">
+              <h2 className="text-xl font-semibold mb-4 sm:mb-6 text-center text-blue-600">
+                Recent Contests
+              </h2>
+              {profileData.ratingData && profileData.ratingData.length > 0 ? (
+                <div className="space-y-4 sm:space-y-6">
+                  {profileData.ratingData.map((contest, index) => (
+                    <div
+                      key={index}
+                      className="relative overflow-hidden mb-4 p-3 sm:p-5 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl transition-all duration-300 hover:shadow-lg hover:scale-[1.02] transform cursor-pointer group"
+                    >
+                      <div className="absolute top-0 left-0 w-2 h-full bg-blue-500 transition-all duration-300 group-hover:w-full opacity-20"></div>
+                      <h3 className="text-base sm:text-lg font-semibold text-blue-700 mb-2 sm:mb-3 relative z-10 truncate">
+                        {contest.name}
+                      </h3>
+                      <div className="mt-2 grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-4 relative z-10">
+                        <div className="text-center p-2 bg-white rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:scale-105">
+                          <p className="text-xs sm:text-sm text-gray-500 mb-1">
+                            Rank
+                          </p>
+                          <p className="font-bold text-blue-600 text-lg sm:text-xl">
+                            {contest.rank}
+                          </p>
+                        </div>
+                        <div className="text-center p-2 bg-white rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:scale-105">
+                          <p className="text-xs sm:text-sm text-gray-500 mb-1">
+                            Rating
+                          </p>
+                          <p className="font-bold text-green-600 text-lg sm:text-xl">
+                            {contest.rating}
+                          </p>
+                        </div>
+                        <div className="text-center p-2 bg-white rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:scale-105">
+                          <p className="text-xs sm:text-sm text-gray-500 mb-1">
+                            Date
+                          </p>
+                          <p className="font-bold text-purple-600 text-lg sm:text-xl">
+                            {formatDate(contest.end_date.split(" ")[0])}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <div>
-                  <p className="font-semibold">Code Devotee - No Badge</p>
-                  <p className="text-sm text-gray-500">0 / 20</p>
-                  <p className="text-xs text-gray-400">Attempt 20 Solutions to get Silver Badge</p>
-                </div>
-              </div>
+              ) : (
+                <p className="text-gray-500 text-center italic">
+                  No recent contests
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Right Column */}
+          <div className="flex flex-col">
+            <div className="bg-white rounded-lg shadow-lg p-6 mb-6 transition-all duration-300 hover:shadow-xl">
+              <h2 className="text-xl font-semibold mb-4">
+                Total Problems Solved
+              </h2>
+              <p className="text-gray-500 text-2xl font-bold transition-all duration-300 hover:scale-110">
+                {profileData.problemsSolved}
+              </p>
             </div>
           </div>
         </div>

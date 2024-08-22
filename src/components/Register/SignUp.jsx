@@ -53,8 +53,8 @@ const SignUp = () => {
           className="flex flex-col items-center justify-center p-8 md:p-12 lg:p-16"
         >
           <div className="max-w-md space-y-6 text-white">
-            <h1 className="text-4xl font-bold">Welcome to our platform!</h1>
-            <p className="text-xl">Sign up to access our powerful tools and resources.</p>
+            <h1 className="text-4xl font-bold">Welcome to <br/> <span className='text-red-500'>Code-Journey</span> !!</h1>
+            <p className="text-xl text-red-200">From Novice to Pro in the World of Code.</p>
             <motion.img
               src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/79d88f102686225.624f64899101f.jpeg"
               width="500"

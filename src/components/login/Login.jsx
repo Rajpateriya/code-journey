@@ -3,12 +3,11 @@ import axios from 'axios';
 import { motion } from 'framer-motion';
 import { User } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-import toast,{Toaster} from 'react-hot-toast';
-
+import toast, { Toaster } from 'react-hot-toast';
 
 const Login = () => {
-  
   const [formData, setFormData] = useState({ username: '' });
+  const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
@@ -17,8 +16,20 @@ const Login = () => {
     setFormData({ ...formData, [id]: value });
   };
 
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.username) newErrors.username = 'Username is required';
+    return newErrors;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const newErrors = validateForm();
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       const response = await axios.post('https://code-journey-backend-1.onrender.com/login', formData);
@@ -49,7 +60,6 @@ const Login = () => {
         >
           <div className="text-center space-y-2 mb-6">
             <h3 className="text-3xl font-bold">Login</h3>
-            {/* <p className="text-lg text-gray-300">Enter your username..</p> */}
           </div>
 
           <form className="space-y-6" onSubmit={handleSubmit}>
@@ -59,6 +69,7 @@ const Login = () => {
               placeholder="Username" 
               value={formData.username} 
               onChange={handleChange} 
+              error={errors.username}
             />
 
             <div>
@@ -80,12 +91,11 @@ const Login = () => {
             </Link>
           </div>
         </motion.div>
-        <Toaster/>
+        <Toaster />
       </div>
     </div>
   );
 };
-
 
 // InputField Component Definition
 const InputField = ({
@@ -95,19 +105,23 @@ const InputField = ({
   type = "text",
   value,
   onChange,
+  error
 }) => (
   <div className="relative">
     <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
       {icon}
     </span>
     <input
-      className="w-full bg-white/5 border border-gray-600 rounded-md py-2 pl-10 pr-3 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
+      className={`w-full bg-white/5 border rounded-md py-2 pl-10 pr-3 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 ${error ? 'border-red-500' : 'border-gray-600'}`}
       id={id}
       placeholder={placeholder}
       type={type}
       value={value}
       onChange={onChange}
     />
+    {error && (
+      <div className="absolute top-full left-0 text-red-500 text-sm mt-1">{error}</div>
+    )}
   </div>
 );
 

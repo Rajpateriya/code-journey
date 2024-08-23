@@ -1,12 +1,11 @@
 import React from "react";
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import GitHubProfile from "./components/Github/GitHubProfile";
 import Home from "./components/Home";
+import UserProfilePage from "./components/Leetcode/UserProfilePage";
 import Login from "./components/login/Login";
 import SignUp from "./components/Register/SignUp";
-import { AuthProvider, useAuth } from "./components/AuthContext";
 import "./index.css";
-import UserProfilePage from "./components/Leetcode/UserProfilePage";
-import LeetCodeProfile from "./components/Leetcode/LeetcodeProfile";
 
 function AppRoutes() {
   return (
@@ -15,6 +14,7 @@ function AppRoutes() {
       <Route path="/" element={<SignUp />} />
       <Route path="/login" element={<Login />} />
       <Route path="/leetcode" element={<UserProfilePage />} />
+      <Route path="/github" element={<GitHubProfile />} />
     </Routes>
   );
 }

@@ -116,7 +116,7 @@ const UserProfilegfg = ({ username }) => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto p-6 bg-gray-50 rounded-xl shadow-lg text-gray-800">
+    <div className="max-w-full mx-auto p-6 bg-gray-50 rounded-xl shadow-lg text-gray-800">
       <Card className="mb-8">
         <div className="p-6">
           <div className="flex flex-col md:flex-row items-center justify-between">

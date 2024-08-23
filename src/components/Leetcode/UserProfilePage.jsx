@@ -33,7 +33,7 @@ const UserProfilePage = ({ username }) => {
   if (!userData) return <div className="text-center py-10">No user data available</div>;
 
   return (
-    <div className="flex flex-col md:flex-row bg-gray-100 min-h-screen">
+    <div className=" flex flex-col md:flex-row bg-gray-100 min-h-screen">
       <div className="w-full md:w-64 lg:w-72">
         <Sidebar userData={userData} />
       </div>

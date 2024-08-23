@@ -6,6 +6,7 @@ import HackerrankProfile from "./Hackerrank/HackerrankProfile";
 import CodeChefProfile from "./codechef/CodeChefProfile";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import GitHubProfile from "./Github/GitHubProfile";
 
 const UserProfile = () => {
   const [activeTab, setActiveTab] = useState(null);
@@ -21,6 +22,7 @@ const UserProfile = () => {
     if (data.codeChef) tabs.push('Codechef');
     if (data.hackerRank) tabs.push('HackerRank');
     if (data.gfg) tabs.push('GFG');
+    if (data.github) tabs.push('Github');
     setAvailableTabs(tabs);
     if (tabs.length > 0) setActiveTab(tabs[0]);
   };
@@ -89,6 +91,12 @@ const UserProfile = () => {
         ) : (
           <UsernameNotExist platform="GeeksForGeeks" />
         );
+        case 'Github':
+          return userData.github ? (
+            <GitHubProfile username={userData.github} />
+          ) : (
+            <UsernameNotExist platform="Github" />
+          );
       default:
         return null;
     }

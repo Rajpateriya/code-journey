@@ -16,6 +16,7 @@ const SignUp = () => {
     leetCode: '',
     gfg: '',
     codeChef: '',
+    github:'',
     password: ''
   });
 
@@ -136,7 +137,7 @@ const SignUp = () => {
               <InputField 
                 icon={<Code />} 
                 id="gfg" 
-                placeholder="GeeksForGeeks Username" 
+                placeholder="Gfg Username" 
                 value={formData.gfg} 
                 onChange={handleChange} 
               />
@@ -145,6 +146,13 @@ const SignUp = () => {
                 id="codeChef" 
                 placeholder="CodeChef Username" 
                 value={formData.codeChef} 
+                onChange={handleChange} 
+              />
+               <InputField 
+                icon={<Code />} 
+                id="github" 
+                placeholder="Github Username" 
+                value={formData.github} 
                 onChange={handleChange} 
               />
               <InputField 

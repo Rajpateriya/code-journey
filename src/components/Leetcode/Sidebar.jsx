@@ -3,7 +3,7 @@ import { User, MapPin, Briefcase, GraduationCap, Calendar, Github, Twitter, Link
 
 const Sidebar = ({ userData }) => {
   return (
-    <div className="bg-gray-800 shadow-lg overflow-hidden w-full md:w-64 lg:w-72">
+    <div className=" bg-gray-800 shadow-lg overflow-hidden w-full md:w-64 lg:w-72">
       <div className="p-4 bg-black-400">
         <img
           src={userData.avatar}

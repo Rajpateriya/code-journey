@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from '../Leetcode/Sidebar';
 import LeetCodeProfile from './LeetcodeProfile';
+import Spinner from '../Spinner';
 
 const UserProfilePage = ({ username }) => {
   const [userData, setUserData] = useState(null);
@@ -28,9 +29,30 @@ const UserProfilePage = ({ username }) => {
     fetchUserData();
   }, [username]); // Ensure the effect runs again if the username changes
 
-  if (loading) return <div className="text-center py-10">Loading...</div>;
-  if (error) return <div className="text-center py-10 text-red-500">{error}</div>;
-  if (!userData) return <div className="text-center py-10">No user data available</div>;
+  if (loading) return <Spinner/>;
+ if (error) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-gray-900 text-white">
+        <div className="text-center p-6 bg-red-700 rounded-lg shadow-lg">
+          <h2 className="text-2xl font-bold mb-2">Oops, something went wrong!</h2>
+          <p className="text-lg">{error}</p>
+          <p className="mt-4">Please check the username or try again later.</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!userData) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-gray-900 text-white">
+        <div className="text-center p-6 bg-gray-800 rounded-lg shadow-lg">
+          <h2 className="text-2xl font-bold mb-2">No User Found</h2>
+          <p className="text-lg">We couldn't find a Leetcode user with the username "{username}".</p>
+          <p className="mt-4">Please check the username or try searching for another one.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className=" flex flex-col md:flex-row bg-gray-100 min-h-screen">

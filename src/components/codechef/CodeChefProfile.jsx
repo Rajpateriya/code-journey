@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Star, ChevronRight, Award, Zap, Calendar } from "lucide-react";
+import Spinner from "../Spinner";
 
 const CodeChefProfile = ({ username }) => {
   const [profileData, setProfileData] = useState(null);
@@ -24,10 +25,30 @@ const CodeChefProfile = ({ username }) => {
       });
   }, [username]);
 
-  if (loading) return <div className="text-center py-8">Loading...</div>;
-  if (error)
-    return <div className="text-center py-8 text-red-500">Error: {error}</div>;
-  if (!profileData) return null;
+  if (loading) return <Spinner/>;
+  if (error) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-gray-900 text-white">
+        <div className="text-center p-6 bg-red-700 rounded-lg shadow-lg">
+          <h2 className="text-2xl font-bold mb-2">Oops, something went wrong!</h2>
+          <p className="text-lg">{error}</p>
+          <p className="mt-4">Please check the username or try again later.</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!profileData) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-gray-900 text-white">
+        <div className="text-center p-6 bg-gray-800 rounded-lg shadow-lg">
+          <h2 className="text-2xl font-bold mb-2">No User Found</h2>
+          <p className="text-lg">We couldn't find a CodeChef user with the username "{username}".</p>
+          <p className="mt-4">Please check the username or try searching for another one.</p>
+        </div>
+      </div>
+    );
+  }
 
   const formatDate = (dateString) => {
     const [year, month, day] = dateString.split("-");

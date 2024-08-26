@@ -56,7 +56,7 @@ const SignUp = () => {
   };
 
   return (
-    <div className="h-screen flex bg-gradient-to-br from-gray-800 to-gray-700">
+    <div className="h-full flex bg-gradient-to-br from-gray-800 to-gray-700">
       <div className="grid md:grid-cols-2 w-full bg-gradient-to-br from-gray-800 to-gray-700 flex-1">
         {/* Left Side */}
         <motion.div
@@ -91,7 +91,7 @@ const SignUp = () => {
           >
             <div className="text-center space-y-2 mb-6">
               <h3 className="text-3xl font-bold">Create an account</h3>
-              <p className="text-lg text-gray-300">Fill out the form to get started.</p>
+              {/* <p className="text-lg text-gray-300">Fill out the form to get started.</p> */}
             </div>
 
             <form className="grid grid-cols-1 gap-y-6 md:grid-cols-2 md:gap-x-4 md:gap-y-6" onSubmit={handleSubmit}>

@@ -12,6 +12,7 @@ import {
   Legend,
 } from "recharts";
 import { Camera, Edit } from "lucide-react";
+import Spinner from "../Spinner";
 
 const Card = ({ children, className = "" }) => (
   <div className={`bg-white rounded-xl shadow-lg ${className}`}>
@@ -69,10 +70,30 @@ const UserProfilegfg = ({ username }) => {
     }
   }, [username]);
 
-  if (loading) return <div className="text-center py-8">Loading...</div>;
-  if (error)
-    return <div className="text-center mt-8 text-red-500">{error}</div>;
-  if (!data) return null
+  if (loading) return <Spinner/>;
+  if (error) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-gray-900 text-white">
+        <div className="text-center p-6 bg-red-700 rounded-lg shadow-lg">
+          <h2 className="text-2xl font-bold mb-2">Oops, something went wrong!</h2>
+          <p className="text-lg">{error}</p>
+          <p className="mt-4">Please check the username or try again later.</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!data) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-gray-900 text-white">
+        <div className="text-center p-6 bg-gray-800 rounded-lg shadow-lg">
+          <h2 className="text-2xl font-bold mb-2">No User Found</h2>
+          <p className="text-lg">We couldn't find a GFG user with the username `{username}`.</p>
+          <p className="mt-4">Please check the username or try searching for another one.</p>
+        </div>
+      </div>
+    );
+  }
 
   const { info, solvedStats } = data;
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaLinkedin, FaGithub, FaUserGraduate, FaBriefcase, FaAward, FaCertificate, FaLink, FaFileAlt } from "react-icons/fa";
+import Spinner from "../Spinner";
 
 function Profile({ userData }) {
   return (
@@ -202,7 +203,7 @@ function HackerrankProfile({username}) {
     fetchUserData();
   }, []);
 
-  if (!userData) return <div className="text-center py-8">Loading...</div>;
+  if (!userData) return <Spinner/>;
 
   return (
     <div className="bg-gray-100 min-h-screen p-4 sm:p-8">

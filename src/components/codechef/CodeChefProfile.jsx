@@ -10,7 +10,7 @@ const CodeChefProfile = ({ username }) => {
   useEffect(() => {
     fetch(`https://codechef-api-7ilp.onrender.com/codechef/${username}`)
       .then((response) => {
-        if (!response.ok) {
+        if (!response.data.success) {
           throw new Error("Network response was not ok");
         }
         return response.json();

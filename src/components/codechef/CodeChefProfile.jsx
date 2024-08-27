@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Star, ChevronRight, Award, Zap, Calendar } from "lucide-react";
-import Spinner from "../Spinner";
+import Spinner from "../Spinner/Spinner";
 
 const CodeChefProfile = ({ username }) => {
   const [profileData, setProfileData] = useState(null);

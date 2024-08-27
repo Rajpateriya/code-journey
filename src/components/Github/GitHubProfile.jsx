@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Spinner from '../Spinner';
+import Spinner from "../Spinner/Spinner";
 
 const GitHubProfile = ({ username }) => {
   const [userData, setUserData] = useState(null);

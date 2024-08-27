@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaLinkedin, FaGithub, FaUserGraduate, FaBriefcase, FaAward, FaCertificate, FaLink, FaFileAlt } from "react-icons/fa";
-import Spinner from "../Spinner";
+import Spinner from "../Spinner/Spinner";
 
 function Profile({ userData }) {
   return (

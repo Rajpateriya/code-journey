@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from '../Leetcode/Sidebar';
 import LeetCodeProfile from './LeetcodeProfile';
-import Spinner from '../Spinner';
+import Spinner from "../Spinner/Spinner";
 
 const UserProfilePage = ({ username }) => {
   const [userData, setUserData] = useState(null);

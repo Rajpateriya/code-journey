@@ -12,7 +12,7 @@ import {
   Legend,
 } from "recharts";
 import { Camera, Edit } from "lucide-react";
-import Spinner from "../Spinner";
+import Spinner from "../Spinner/Spinner";
 
 const Card = ({ children, className = "" }) => (
   <div className={`bg-white rounded-xl shadow-lg ${className}`}>

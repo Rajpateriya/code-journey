@@ -7,12 +7,14 @@ import CodeChefProfile from "./codechef/CodeChefProfile";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import GitHubProfile from "./Github/GitHubProfile";
+import ProfileEditModal from "./Register/ProfileEditModal"; // Import the ProfileEditModal component
 
 const UserProfile = () => {
   const [activeTab, setActiveTab] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [userData, setUserData] = useState(null);
   const [availableTabs, setAvailableTabs] = useState([]);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false); // New state for edit modal
   const navigate = useNavigate();
   const params = useParams();
 
@@ -91,12 +93,12 @@ const UserProfile = () => {
         ) : (
           <UsernameNotExist platform="GeeksForGeeks" />
         );
-        case 'Github':
-          return userData.github ? (
-            <GitHubProfile username={userData.github} />
-          ) : (
-            <UsernameNotExist platform="Github" />
-          );
+      case 'Github':
+        return userData.github ? (
+          <GitHubProfile username={userData.github} />
+        ) : (
+          <UsernameNotExist platform="Github" />
+        );
       default:
         return null;
     }
@@ -111,6 +113,15 @@ const UserProfile = () => {
     navigate('/login');
   };
 
+  const handleEditProfile = () => {
+    setIsEditModalOpen(true);
+    setDropdownOpen(false);
+  };
+
+  const handleCloseEditModal = () => {
+    setIsEditModalOpen(false);
+  };
+
   if (!userData) {
     return <div className="text-center mt-8">Loading user data...</div>;
   }
@@ -118,55 +129,66 @@ const UserProfile = () => {
   return (
     <div className="grid w-full border-gray-700 bg-gray-800 text-white">
       <div className="flex flex-col">
-      <header className="sticky top-0 z-10 flex items-center justify-between border-b border-gray-700 bg-gray-900 px-2 sm:px-6 py-2 shadow-sm">
-  <div className="flex items-center justify-between space-x-1 sm:space-x-2 overflow-x-auto flex-grow max-w-[calc(100%-3rem)]">
-    {availableTabs.map((tab) => (
-      <button
-        key={tab}
-        className={`flex-1 inline-flex items-center justify-center whitespace-nowrap rounded-md px-2 sm:px-3 py-1 text-[15px] sm:text-sm font-medium ${
-          activeTab === tab ? 'bg-gray-800 text-white shadow' : 'bg-gray-700 text-gray-400 hover:bg-gray-800 hover:text-white'
-        }`}
-        onClick={() => setActiveTab(tab)}
-        role="tab"
-        aria-selected={activeTab === tab}
-      >
-        {tab}
-      </button>
-    ))}
-  </div>
-  <div className="relative flex-shrink-0 ml-2">
-    <button
-      className="inline-flex items-center justify-center h-8 w-8 sm:h-10 sm:w-10 rounded-full text-sm font-medium transition-colors hover:bg-gray-800 hover:text-white"
-      type="button"
-      aria-haspopup="menu"
-      aria-expanded={dropdownOpen}
-      onClick={toggleDropdown}
-    >
-      <span className="relative flex shrink-0 overflow-hidden rounded-full h-6 w-6 sm:h-8 sm:w-8">
-        <img
-          className="object-cover content-center h-full w-full"
-          src="https://png.pngtree.com/png-vector/20190425/ourmid/pngtree-vector-logout-icon-png-image_991952.jpg"
-          alt="User"
-        />
-      </span>
-      <span className="sr-only">Toggle user menu</span>
-    </button>
-    {dropdownOpen && (
-      <div className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg z-10">
-        <button
-          className="block w-full text-center px-4 py-2 text-lg text-gray-400 hover:bg-gray-700 hover:text-white"
-          onClick={handleLogout}
-        >
-          Logout
-        </button>
-      </div>
-    )}
-  </div>
-</header>
+        <header className="sticky top-0 z-10 flex items-center justify-between border-b border-gray-700 bg-gray-900 px-2 sm:px-6 py-2 shadow-sm">
+          <div className="flex items-center justify-between space-x-1 sm:space-x-2 overflow-x-auto flex-grow max-w-[calc(100%-3rem)]">
+            {availableTabs.map((tab) => (
+              <button
+                key={tab}
+                className={`flex-1 inline-flex items-center justify-center whitespace-nowrap rounded-md px-2 sm:px-3 py-1 text-[15px] sm:text-sm font-medium ${
+                  activeTab === tab ? 'bg-gray-800 text-white shadow' : 'bg-gray-700 text-gray-400 hover:bg-gray-800 hover:text-white'
+                }`}
+                onClick={() => setActiveTab(tab)}
+                role="tab"
+                aria-selected={activeTab === tab}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+          <div className="relative flex-shrink-0 ml-2">
+            <button
+              className="inline-flex items-center justify-center h-8 w-8 sm:h-10 sm:w-10 rounded-full text-sm font-medium transition-colors hover:bg-gray-800 hover:text-white"
+              type="button"
+              aria-haspopup="menu"
+              aria-expanded={dropdownOpen}
+              onClick={toggleDropdown}
+            >
+              <span className="relative flex shrink-0 overflow-hidden rounded-full h-6 w-6 sm:h-8 sm:w-8">
+                <img
+                  className="object-cover content-center h-full w-full"
+                  src="https://png.pngtree.com/png-vector/20190425/ourmid/pngtree-vector-logout-icon-png-image_991952.jpg"
+                  alt="User"
+                />
+              </span>
+              <span className="sr-only">Toggle user menu</span>
+            </button>
+            {dropdownOpen && (
+              <div className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg z-10">
+                <button
+                  className="block w-full text-left px-4 py-2 text-lg text-gray-400 hover:bg-gray-700 hover:text-white"
+                  onClick={handleEditProfile}
+                >
+                  Edit Profile
+                </button>
+                <button
+                  className="block w-full text-left px-4 py-2 text-lg text-gray-400 hover:bg-gray-700 hover:text-white"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
+        </header>
         <main className="flex-1 overflow-auto p-6">
           {renderTabContent()}
         </main>
       </div>
+      <ProfileEditModal
+        isOpen={isEditModalOpen}
+        onClose={handleCloseEditModal}
+        username={userData.username}
+      />
     </div>
   );
 };

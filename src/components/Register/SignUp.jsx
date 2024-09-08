@@ -56,7 +56,7 @@ const SignUp = () => {
   };
 
   return (
-    <div className="h-screen flex bg-gradient-to-br from-gray-800 to-gray-700">
+    <div className="min-h-screen flex bg-gradient-to-br from-gray-800 to-gray-700">
       <div className="grid md:grid-cols-2 w-full bg-gradient-to-br from-gray-800 to-gray-700 flex-1">
         {/* Left Side */}
         <motion.div

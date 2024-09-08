@@ -78,8 +78,8 @@ const SignUp = () => {
           className="hidden md:flex flex-col items-center justify-center p-8 md:p-12 lg:p-16"
         >
           <div className="max-w-md space-y-6 text-white">
-            <h1 className="text-4xl font-bold">Welcome to <br /> <span className='text-red-500'>Code-Journey</span> !!</h1>
-            <p className="text-xl text-red-200">From Novice to Pro in the World of Code.</p>
+            <h1 className="text-4xl font-bold"><span className='text-red-500'>Code-Journey</span></h1>
+            {/* <p className="text-xl text-red-200">From Novice to Pro in the World of Code.</p> */}
             <h2 className="text-2xl font-semibold text-yellow-300">Embark on Your Coding Adventure</h2>
             <p className="text-lg text-gray-300">Track your progress, showcase your skills, and connect with fellow coders.</p>
             <motion.img

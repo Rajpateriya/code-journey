@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { X, User, Mail, Code, Github } from 'lucide-react';
+import { X, User, Mail, Code, Github, Loader } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-hot-toast';
 
@@ -14,6 +14,7 @@ const ProfileEditModal = ({ isOpen, onClose, username }) => {
     codeChef: '',
     github: '',
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (isOpen && username) {
@@ -38,13 +39,25 @@ const ProfileEditModal = ({ isOpen, onClose, username }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
     try {
       const response = await axios.put(`https://code-journey-backend-1.onrender.com/profile/${username}`, formData);
-      toast.success('Profile updated successfully');
-      onClose();
+      toast.success('Profile updated successfully', {
+        duration: 3000,
+        icon: '🎉',
+        style: {
+          background: '#333',
+          color: '#fff',
+        },
+      });
+      setTimeout(() => {
+        onClose();
+      }, 2000);
     } catch (error) {
       console.error('Error updating profile:', error);
       toast.error('Failed to update profile');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -124,10 +137,18 @@ const ProfileEditModal = ({ isOpen, onClose, username }) => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="w-full py-2 px-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-md font-semibold text-lg shadow-lg"
+                className={`w-full py-2 px-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-md font-semibold text-lg shadow-lg ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
                 type="submit"
+                disabled={isSubmitting}
               >
-                Update Profile
+                {isSubmitting ? (
+                  <span className="flex items-center justify-center">
+                    <Loader className="animate-spin mr-2" size={20} />
+                    Updating...
+                  </span>
+                ) : (
+                  'Update Profile'
+                )}
               </motion.button>
             </form>
           </motion.div>

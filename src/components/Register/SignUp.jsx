@@ -3,11 +3,12 @@ import axios from 'axios';
 import { motion } from 'framer-motion';
 import { User, Mail, Lock, Code } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
+import { toast, Toaster } from 'react-hot-toast';
 
 const SignUp = () => {
   const navigate = useNavigate();
   const [isHovering, setIsHovering] = useState(false);
+  const [isClicking, setIsClicking] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     username: '',
@@ -29,7 +30,6 @@ const SignUp = () => {
 
   const validateForm = () => {
     const newErrors = {};
-    // Check for mandatory fields
     if (!formData.name) newErrors.name = "Full Name is required";
     if (!formData.username) newErrors.username = "Username is required";
     if (!formData.email) newErrors.email = "Email is required";
@@ -45,18 +45,30 @@ const SignUp = () => {
       return;
     }
 
+    setIsClicking(true);
     try {
       const response = await axios.post('https://code-journey-backend-1.onrender.com/signup', formData);
-      toast(response.data.message);
+      toast.success('Signup successful! Welcome aboard!', {
+        duration: 3000,
+        position: 'top-center',
+      });
       localStorage.setItem('username', formData.username);
-      navigate(`/profile/${formData.username}`);
+      setTimeout(() => {
+        navigate(`/profile/${formData.username}`);
+      }, 3000);
     } catch (error) {
-      toast(error.response.data.error);
+      toast.error(error.response.data.error || 'Signup failed. Please try again.', {
+        duration: 3000,
+        position: 'top-center',
+      });
+    } finally {
+      setIsClicking(false);
     }
   };
 
   return (
     <div className="min-h-screen flex bg-gradient-to-br from-gray-800 to-gray-700">
+      <Toaster />
       <div className="grid md:grid-cols-2 w-full bg-gradient-to-br from-gray-800 to-gray-700 flex-1">
         {/* Left Side */}
         <motion.div
@@ -68,6 +80,8 @@ const SignUp = () => {
           <div className="max-w-md space-y-6 text-white">
             <h1 className="text-4xl font-bold">Welcome to <br /> <span className='text-red-500'>Code-Journey</span> !!</h1>
             <p className="text-xl text-red-200">From Novice to Pro in the World of Code.</p>
+            <h2 className="text-2xl font-semibold text-yellow-300">Embark on Your Coding Adventure</h2>
+            <p className="text-lg text-gray-300">Track your progress, showcase your skills, and connect with fellow coders.</p>
             <motion.img
               src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/79d88f102686225.624f64899101f.jpeg"
               width="500"
@@ -91,7 +105,6 @@ const SignUp = () => {
           >
             <div className="text-center space-y-2 mb-6">
               <h3 className="text-3xl font-bold">Create an account</h3>
-              {/* <p className="text-lg text-gray-300">Fill out the form to get started.</p> */}
             </div>
 
             <form className="grid grid-cols-1 gap-y-6 md:grid-cols-2 md:gap-x-4 md:gap-y-6" onSubmit={handleSubmit}>
@@ -171,8 +184,11 @@ const SignUp = () => {
                   className="w-full py-3 px-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-md font-semibold text-lg shadow-lg"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
+                  animate={isClicking ? { scale: [1, 0.95, 1.05, 1] } : {}}
+                  transition={{ duration: 0.3 }}
                   onHoverStart={() => setIsHovering(true)}
                   onHoverEnd={() => setIsHovering(false)}
+                  onClick={() => setIsClicking(true)}
                 >
                   Sign Up
                 </motion.button>

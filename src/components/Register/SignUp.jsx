@@ -8,7 +8,7 @@ import { toast, Toaster } from 'react-hot-toast';
 const SignUp = () => {
   const navigate = useNavigate();
   const [isHovering, setIsHovering] = useState(false);
-  const [isClicking, setIsClicking] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     username: '',
@@ -45,8 +45,11 @@ const SignUp = () => {
       return;
     }
 
-    setIsClicking(true);
+    setIsSubmitting(true);
     try {
+      // Simulating a longer sign-up process
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      
       const response = await axios.post('https://code-journey-backend-1.onrender.com/signup', formData);
       toast.success('Signup successful! Welcome aboard!', {
         duration: 3000,
@@ -57,12 +60,12 @@ const SignUp = () => {
         navigate(`/profile/${formData.username}`);
       }, 3000);
     } catch (error) {
-      toast.error(error.response.data.error || 'Signup failed. Please try again.', {
+      toast.error(error.response?.data?.error || 'Signup failed. Please try again.', {
         duration: 3000,
         position: 'top-center',
       });
     } finally {
-      setIsClicking(false);
+      setIsSubmitting(false);
     }
   };
 
@@ -79,7 +82,6 @@ const SignUp = () => {
         >
           <div className="max-w-md space-y-6 text-white">
             <h1 className="text-4xl font-bold"><span className='text-red-500'>Code-Journey</span></h1>
-            {/* <p className="text-xl text-red-200">From Novice to Pro in the World of Code.</p> */}
             <h2 className="text-2xl font-semibold text-yellow-300">Embark on Your Coding Adventure</h2>
             <p className="text-lg text-gray-300">Track your progress, showcase your skills, and connect with fellow coders.</p>
             <motion.img
@@ -181,25 +183,52 @@ const SignUp = () => {
               <div className="md:col-span-2">
                 <motion.button
                   type="submit"
-                  className="w-full py-3 px-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-md font-semibold text-lg shadow-lg"
+                  className="w-full py-3 px-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-md font-semibold text-lg shadow-lg relative overflow-hidden"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  animate={isClicking ? { scale: [1, 0.95, 1.05, 1] } : {}}
+                  animate={isSubmitting ? { scale: [1, 0.95, 1.05, 1] } : {}}
                   transition={{ duration: 0.3 }}
                   onHoverStart={() => setIsHovering(true)}
                   onHoverEnd={() => setIsHovering(false)}
-                  onClick={() => setIsClicking(true)}
+                  disabled={isSubmitting}
                 >
-                  Sign Up
+                  {isSubmitting ? (
+                    <>
+                      <span className="opacity-0">Sign Up</span>
+                      <motion.div
+                        className="absolute inset-0 flex items-center justify-center"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                      >
+                        <motion.div
+                          className="h-6 w-6 border-t-2 border-r-2 border-white rounded-full"
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                        />
+                      </motion.div>
+                    </>
+                  ) : (
+                    "Sign Up"
+                  )}
                 </motion.button>
 
-                {isHovering && (
+                {isHovering && !isSubmitting && (
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     className="text-center text-sm text-gray-300 mt-2"
                   >
                     Click to join our community!
+                  </motion.div>
+                )}
+                
+                {isSubmitting && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="text-center text-sm text-gray-300 mt-2"
+                  >
+                    Creating your account...
                   </motion.div>
                 )}
               </div>
